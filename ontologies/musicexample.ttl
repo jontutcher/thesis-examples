@@ -1,0 +1,267 @@
+@prefix : <http://purl.org/ub/example/musicont#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <urn:musicexample> .
+
+<urn:musicexample> rdf:type owl:Ontology .
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  urn:musicexample#contains
+
+<urn:musicexample#contains> rdf:type owl:ObjectProperty .
+
+
+
+###  urn:musicexample#createdBy
+
+<urn:musicexample#createdBy> rdf:type owl:ObjectProperty ;
+                             
+                             owl:inverseOf <urn:musicexample#creates> .
+
+
+
+###  urn:musicexample#creates
+
+<urn:musicexample#creates> rdf:type owl:ObjectProperty ;
+                           
+                           rdfs:subPropertyOf owl:topObjectProperty .
+
+
+
+###  urn:musicexample#hasMember
+
+<urn:musicexample#hasMember> rdf:type owl:ObjectProperty ;
+                             
+                             rdfs:domain <urn:musicexample#Act> ;
+                             
+                             rdfs:range <urn:musicexample#Musician> ;
+                             
+                             owl:inverseOf <urn:musicexample#memberOf> .
+
+
+
+###  urn:musicexample#memberOf
+
+<urn:musicexample#memberOf> rdf:type owl:ObjectProperty .
+
+
+
+###  urn:musicexample#playedBy
+
+<urn:musicexample#playedBy> rdf:type owl:ObjectProperty ;
+                            
+                            owl:inverseOf <urn:musicexample#plays> .
+
+
+
+###  urn:musicexample#plays
+
+<urn:musicexample#plays> rdf:type owl:ObjectProperty .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  urn:musicexample#Act
+
+<urn:musicexample#Act> rdf:type owl:Class ;
+                       
+                       rdfs:subClassOf owl:Thing .
+
+
+
+###  urn:musicexample#Band
+
+<urn:musicexample#Band> rdf:type owl:Class ;
+                        
+                        rdfs:subClassOf <urn:musicexample#Act> ;
+                        
+                        owl:disjointWith <urn:musicexample#SoloArtist> .
+
+
+
+###  urn:musicexample#Drummer
+
+<urn:musicexample#Drummer> rdf:type owl:Class ;
+                           
+                           rdfs:subClassOf owl:Thing .
+
+
+
+###  urn:musicexample#Guitar
+
+<urn:musicexample#Guitar> rdf:type owl:Class ;
+                          
+                          rdfs:subClassOf owl:Thing .
+
+
+
+###  urn:musicexample#Guitarist
+
+<urn:musicexample#Guitarist> rdf:type owl:Class ;
+                             
+                             owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                   owl:onProperty <urn:musicexample#plays> ;
+                                                   owl:hasValue <urn:musicexample#Guitar>
+                                                 ] ;
+                             
+                             rdfs:subClassOf <urn:musicexample#Musician> .
+
+
+
+###  urn:musicexample#Instrument
+
+<urn:musicexample#Instrument> rdf:type owl:Class ;
+                              
+                              owl:disjointWith <urn:musicexample#Music> ,
+                                               <urn:musicexample#Musician> .
+
+
+
+###  urn:musicexample#Music
+
+<urn:musicexample#Music> rdf:type owl:Class ;
+                         
+                         owl:disjointWith <urn:musicexample#Musician> .
+
+
+
+###  urn:musicexample#Musician
+
+<urn:musicexample#Musician> rdf:type owl:Class ;
+                            
+                            owl:equivalentClass [ rdf:type owl:Restriction ;
+                                                  owl:onProperty <urn:musicexample#plays> ;
+                                                  owl:someValuesFrom <urn:musicexample#Instrument>
+                                                ] ;
+                            
+                            rdfs:subClassOf owl:Thing .
+
+
+
+###  urn:musicexample#RockBand
+
+<urn:musicexample#RockBand> rdf:type owl:Class ;
+                            
+                            rdfs:subClassOf <urn:musicexample#Band> ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <urn:musicexample#creates> ;
+                                              owl:hasValue <urn:musicexample#RockMusic>
+                                            ] ,
+                                            [ rdf:type owl:Restriction ;
+                                              owl:onProperty <urn:musicexample#hasMember> ;
+                                              owl:allValuesFrom <urn:musicexample#Musician>
+                                            ] .
+
+
+
+###  urn:musicexample#SoloArtist
+
+<urn:musicexample#SoloArtist> rdf:type owl:Class ;
+                              
+                              rdfs:subClassOf <urn:musicexample#Act> ,
+                                              [ rdf:type owl:Restriction ;
+                                                owl:onProperty <urn:musicexample#contains> ;
+                                                owl:onClass <urn:musicexample#Musician> ;
+                                                owl:maxQualifiedCardinality "1"^^xsd:nonNegativeInteger
+                                              ] .
+
+
+
+
+
+#################################################################
+#
+#    Individuals
+#
+#################################################################
+
+
+###  urn:musicexample#Guitar
+
+<urn:musicexample#Guitar> rdf:type owl:NamedIndividual ,
+                                   owl:Thing .
+
+
+
+###  urn:musicexample#PinkFloyd
+
+<urn:musicexample#PinkFloyd> rdf:type owl:NamedIndividual ,
+                                      <urn:musicexample#RockBand> .
+
+
+
+###  urn:musicexample#RingoStarr
+
+<urn:musicexample#RingoStarr> rdf:type owl:NamedIndividual ,
+                                       <urn:musicexample#Drummer> ;
+                              
+                              <urn:musicexample#memberOf> <urn:musicexample#TheBeatles> .
+
+
+
+###  urn:musicexample#RockMusic
+
+<urn:musicexample#RockMusic> rdf:type owl:NamedIndividual ,
+                                      <urn:musicexample#Music> .
+
+
+
+###  urn:musicexample#RogerWaters
+
+<urn:musicexample#RogerWaters> rdf:type owl:NamedIndividual ,
+                                        <urn:musicexample#Guitarist> ,
+                                        <urn:musicexample#SoloArtist> ;
+                               
+                               <urn:musicexample#memberOf> <urn:musicexample#PinkFloyd> .
+
+
+
+###  urn:musicexample#TheBeatles
+
+<urn:musicexample#TheBeatles> rdf:type owl:NamedIndividual ,
+                                       <urn:musicexample#RockBand> .
+
+
+
+
+
+#################################################################
+#
+#    General axioms
+#
+#################################################################
+
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( <urn:musicexample#Guitar>
+                        <urn:musicexample#PinkFloyd>
+                        <urn:musicexample#RingoStarr>
+                        <urn:musicexample#RockMusic>
+                        <urn:musicexample#RogerWaters>
+                        <urn:musicexample#TheBeatles>
+                      )
+] .
+
+
+
+
+###  Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net
+
